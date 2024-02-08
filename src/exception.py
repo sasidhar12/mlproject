@@ -1,40 +1,20 @@
-def longestSubarrayWithSumK(a: [int], k: int) -> int:
-    # Write your code here
-    index_to_begin = 0
-    i =0
-    sum_=0
-    count = 0
-    max_count =0
-    while i < len(a):
-        
-        if a[i] == k:
-            count = 0
-            sum_ = a[i]
-            count = count + 1
-            if  max_count==0 or count > max_count:
-                max_count = count
-            
-        
-                
-            
-        elif sum_ < k:
-            sum_ = sum_ + a[i]
-            count = count + 1
-            
+import sys
+from src.logger import logging
+
+def error_message_detail(error,error_detail:sys):
+    _,_,exc_tb=error_detail.exc_info()
+    file_name=exc_tb.tb_frame.f_code.co_filename
+    error_message="Error occured in python script name [{0}] line number [{1}] error message[{2}]".format(
+     file_name,exc_tb.tb_lineno,str(error))
+
+    return error_message
+
     
-        elif sum_==k or sum_ > k or a[i]:
-                    
-            if sum_ ==k:
-                if count >max_count:
-                    max_count = count
-            
-            count = 0
-            sum_ = 0
 
-            i = index_to_begin + 1
-            index_to_begin = index_to_begin + 1
-
-        i = i + 1
-    return max_count 
-
-print(longestSubarrayWithSumK([1,2,1,3],2))
+class CustomException(Exception):
+    def __init__(self,error_message,error_detail:sys):
+        super().__init__(error_message)
+        self.error_message=error_message_detail(error_message,error_detail=error_detail)
+    
+    def __str__(self):
+        return self.error_message
